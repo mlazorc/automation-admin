@@ -22,7 +22,7 @@ public class LoginPageTest {
 
     @Test
     public void accesoApp(){
-        loginPage.accesoLogin("admin","andain5546");
+        loginPage.accesoLogin("","");
         System.out.println("Acceso correcto");
     }
 
