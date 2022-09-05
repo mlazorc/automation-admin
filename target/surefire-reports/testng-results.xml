@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="0" passed="0">
+  <reporter-output>
+  </reporter-output>
+  <suite name="cl.oneapp.testcases.LoginPageTest" duration-ms="8" started-at="2022-09-05T19:11:40 CLST" finished-at="2022-09-05T19:11:40 CLST">
+    <groups>
+    </groups>
+    <test name="Command line test" duration-ms="8" started-at="2022-09-05T19:11:40 CLST" finished-at="2022-09-05T19:11:40 CLST">
+    </test> <!-- Command line test -->
+  </suite> <!-- cl.oneapp.testcases.LoginPageTest -->
+</testng-results>
