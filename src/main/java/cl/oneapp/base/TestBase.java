@@ -1,9 +1,22 @@
 package cl.oneapp.base;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.sun.org.glassfish.gmbal.Description;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.devtools.v85.page.Page;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TestBase {
 
@@ -36,4 +49,44 @@ public class TestBase {
         driver.quit();
     }
 
+    public String fechaActual(){
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+    public void capturarPantalla(String ruta){
+        try {
+            TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+            File print = takesScreenshot.getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(print, new File(ruta));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void crearEvidencia(String titulo, String ruta) throws IOException, DocumentException {
+        try{
+            Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+            PdfWriter.getInstance(document, new FileOutputStream(ruta));
+            document.open();
+            document.addTitle("Documento evidencia casos de prueba");
+            TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+            File captura = takesScreenshot.getScreenshotAs(OutputType.FILE);
+            Image imagen = Image.getInstance(String.valueOf(captura));
+            float documentoWidth = document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin();
+            float documentoHeight = document.getPageSize().getHeight() - document.topMargin() - document.bottomMargin();
+            imagen.scaleToFit(documentoWidth,documentoHeight);
+            document.add(new Chapter(titulo,1));
+            document.add(imagen);
+            document.close();
+        }catch (IOException i){
+            i.printStackTrace();
+            System.out.println("No fue posible capturar la evidencia");
+        }
+    }
+
+    public String obtenerTexto(By elemento){
+        return driver.findElement(elemento).getText();
+    }
 }
