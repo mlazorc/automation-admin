@@ -2,21 +2,19 @@ package cl.oneapp.base;
 
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.sun.org.glassfish.gmbal.Description;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.devtools.v85.page.Page;
+import org.openqa.selenium.interactions.Actions;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class TestBase {
 
@@ -89,4 +87,17 @@ public class TestBase {
     public String obtenerTexto(By elemento){
         return driver.findElement(elemento).getText();
     }
+
+    public void seleccionarOpcion(By element, String opcion){
+        WebElement lista = element.findElement(driver);
+        List<WebElement> opciones = lista.findElements(By.tagName("li"));
+        opciones.forEach(option->{
+            if (option.getAttribute("innerText").equals(opcion)){
+                Actions acciones = new Actions(driver);
+                acciones.moveToElement(option).click().perform();
+            }
+        });
+    }
+
+
 }
